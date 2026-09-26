@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batalla Pokémon</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Pantalla de inicio -->
+  <section id="pantalla_inicio">
+    <h1>App de batalla entre Pokémon</h1>
+    <p>Seleccioná los dos Pokémon para empezar</p>
+
+    <div class="contenedor">
+
+      <!-- Pokémon 1 -->
+      <div class="lado_izquierdo">
+        <h3>Pokémon 1</h3>
+        <input type="text" id="primer_poke_buscador" placeholder="Buscar Pokémon...">
+        <p id="primer_poke_mensaje"></p>
+        <ul id="primer_poke_sugerencias"></ul>
+
+        <div id="primer_poke_elegido" class="oculto">
+          <img id="primer_poke_foto_elegido" alt="Pokémon 1">
+          <p id="primer_poke_nombre_elegido"></p>
+          <p id="primer_poke_vida_elegido"></p>
+        </div>
+      </div>
+
+      <!-- Pokémon 2 -->
+      <div class="lado_derecho">
+        <h3>Pokémon 2</h3>
+        <input type="text" id="segundo_poke_buscador" placeholder="Buscar Pokémon...">
+        <p id="segundo_poke_mensaje"></p>
+        <ul id="segundo_poke_sugerencias"></ul>
+
+        <div id="segundo_poke_elegido" class="oculto">
+          <img id="segundo_poke_foto_elegido" alt="Pokémon 2">
+          <p id="segundo_poke_nombre_elegido"></p>
+          <p id="segundo_poke_vida_elegido"></p>
+        </div>
+      </div>
+
+    </div>
+
+    <button id="boton_empezar" disabled>Empezar batalla</button>
+  </section>
+
+  <!-- Pantalla de batalla -->
+  <section id="pantalla_batalla" class="oculto">
+    <div class="contenedor">
+
+      <!-- Luchador 1 -->
+      <div class="lado_izquierdo">
+        <h3 id="primer_poke_nombre"></h3>
+        <img id="primer_poke_foto" alt="Luchador 1">
+        <div class="barra">
+          <div id="primer_poke_barra" class="vida"></div>
+        </div>
+        <p id="primer_poke_vida"></p>
+        <div id="primer_poke_ataques"></div>
+      </div>
+
+      <!-- Luchador 2 -->
+      <div class="lado_derecho">
+        <h3 id="segundo_poke_nombre"></h3>
+        <img id="segundo_poke_foto" alt="Luchador 2">
+        <div class="barra">
+          <div id="segundo_poke_barra" class="vida"></div>
+        </div>
+        <p id="segundo_poke_vida"></p>
+        <div id="segundo_poke_ataques"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Pantalla final -->
+  <section id="pantalla_final" class="oculto">
+    <div class="contenedor">
+
+      <!-- Luchador 1 -->
+      <div class="lado_izquierdo">
+        <h3 id="primer_poke_nombre_final"></h3>
+        <img id="primer_poke_foto_final" alt="Luchador 1">
+        <div class="barra">
+          <div id="primer_poke_barra_final" class="vida"></div>
+        </div>
+        <p id="primer_poke_vida_final"></p>
+      </div>
+
+      <!-- Luchador 2 -->
+      <div class="lado_derecho">
+        <h3 id="segundo_poke_nombre_final"></h3>
+        <img id="segundo_poke_foto_final" alt="Luchador 2">
+        <div class="barra">
+          <div id="segundo_poke_barra_final" class="vida"></div>
+        </div>
+        <p id="segundo_poke_vida_final"></p>
+      </div>
+
+    </div>
+
+    <h2 id="texto_ganador"></h2>
+    <button id="boton_reiniciar">Intentar de nuevo</button>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
