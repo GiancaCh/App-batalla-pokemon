@@ -45,11 +45,11 @@ const segundo_poke_vida_final = document.querySelector('#segundo_poke_vida_final
 const texto_ganador = document.querySelector('#texto_ganador');
 const boton_reiniciar = document.querySelector('#boton_reiniciar');
 
-// Datos de cada pokemon elegido (se llenan cuando se busca uno válido)
+// Datos de cada pokemon elegido 
 let primer_poke = null;
 let segundo_poke = null;
 
-// Temporizadores para el debounce de cada buscador
+// Temporizadores para el debounce de cada buscador (Hecho con ayuda de IA)
 let temporizador_primero;
 let temporizador_segundo;
 
@@ -62,7 +62,7 @@ function cambiar_pantalla(pantalla_a_mostrar) {
   pantalla_a_mostrar.classList.remove('oculto');
 }
 
-// Funcion que solo hace el fetch a la API (async porque el fetch tarda)
+// Funcion que solo hace el fetch a la API 
 async function buscar_pokemon(nombre) {
   try {
     const respuesta = await fetch(`https://pokeapi.co/api/v2/pokemon/${nombre}`);
@@ -78,7 +78,7 @@ async function buscar_pokemon(nombre) {
   }
 }
 
-// Funcion que agarra del JSON de la API solo lo que necesitamos
+// Funcion que agarra los datos de la API 
 function armar_pokemon(datos) {
   let vida = 0;
 
@@ -176,7 +176,7 @@ async function elegir_pokemon(nombre, numero) {
   revisar_listos();
 }
 
-// Crea los 4 botones de ataque de un pokemon
+// Los 4 botones de ataque de un pokemon
 function mostrar_ataques(numero) {
   let poke;
   let contenedor;

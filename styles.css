@@ -1,3 +1,130 @@
 .oculto {
   display: none;
 }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background: linear-gradient(to bottom, #7CC6FE 50%, #06BA63 50%);
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px 20px;
+  box-sizing: border-box;
+}
+
+.contenedor {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  margin: 20px auto;
+}
+
+.lado_izquierdo,
+.lado_derecho {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 260px;
+}
+
+input {
+  padding: 8px;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+img {
+  width: 120px;
+  height: 120px;
+}
+
+.barra {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+.vida {
+  height: 100%;
+  width: 100%;
+  background-color: #06BA63;
+  transition: width 0.3s;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #7CC6FE;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+#boton_empezar,
+#boton_reiniciar {
+  padding: 15px 30px;
+  background-color: white;
+  font-size: 16px;
+}
+
+#primer_poke_ataques,
+#segundo_poke_ataques {
+  display: flex;
+  flex-direction: column;
+}
+
+#texto_ganador {
+  font-size: 28px;
+  margin: 20px 0;
+}
+
+/* Metodos de responsive */
+
+@media (min-width: 768px) {
+  .contenedor {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lado_izquierdo,
+  .lado_derecho {
+    width: 320px;
+  }
+
+  img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .contenedor {
+    max-width: 1200px;
+    margin: 20px auto;
+  }
+}
