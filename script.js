@@ -3,6 +3,8 @@ const primer_poke_buscador = document.querySelector('#primer_poke_buscador');
 const segundo_poke_buscador = document.querySelector('#segundo_poke_buscador');
 const primer_poke_mensaje = document.querySelector('#primer_poke_mensaje');
 const segundo_poke_mensaje = document.querySelector('#segundo_poke_mensaje');
+const primer_poke_sugerencias = document.querySelector('#primer_poke_sugerencias');
+const segundo_poke_sugerencias = document.querySelector('#segundo_poke_sugerencias');
 
 const primer_poke_elegido = document.querySelector('#primer_poke_elegido');
 const primer_poke_foto_elegido = document.querySelector('#primer_poke_foto_elegido');
@@ -53,6 +55,9 @@ let segundo_poke = null;
 let temporizador_primero;
 let temporizador_segundo;
 
+// Lista con los nombres de los pokemones que se filtran mientras se escribe
+let lista_nombres = [];
+
 // Funcion para cambiar entre las pantallas
 function cambiar_pantalla(pantalla_a_mostrar) {
   pantalla_inicio.classList.add('oculto');
@@ -60,6 +65,17 @@ function cambiar_pantalla(pantalla_a_mostrar) {
   pantalla_final.classList.add('oculto');
 
   pantalla_a_mostrar.classList.remove('oculto');
+}
+
+// Trae la lista completa de nombres
+async function cargar_lista_pokemon() {
+  const respuesta = await fetch('https://pokeapi.co/api/v2/pokemon?limit=1000');
+
+  const datos = await respuesta.json();
+
+  for (let i = 0; i < datos.results.length; i++) {
+    lista_nombres.push(datos.results[i].name);
+  }
 }
 
 // Funcion que solo hace el fetch a la API 
@@ -117,6 +133,65 @@ function revisar_listos() {
   }
 }
 
+// La IA me ayudó a armar esta parte de búsqueda por sugerencias porque tuve problemas al momento de probarlo y aplicarlo
+// Filtra la lista de nombres con lo que se escribió y muestra sugerencias
+function mostrar_sugerencias(numero) {
+  let buscador;
+  let contenedor_sugerencias;
+  let mensaje;
+
+  if (numero === 1) {
+    buscador = primer_poke_buscador;
+    contenedor_sugerencias = primer_poke_sugerencias;
+    mensaje = primer_poke_mensaje;
+  } else {
+    buscador = segundo_poke_buscador;
+    contenedor_sugerencias = segundo_poke_sugerencias;
+    mensaje = segundo_poke_mensaje;
+  }
+
+  const texto_escrito = buscador.value.trim().toLowerCase();
+
+  contenedor_sugerencias.innerHTML = '';
+  mensaje.textContent = '';
+
+  if (texto_escrito === '') {
+    return;
+  }
+
+  const coincidencias = [];
+
+  for (let i = 0; i < lista_nombres.length; i++) {
+    if (lista_nombres[i].includes(texto_escrito)) {
+      coincidencias.push(lista_nombres[i]);
+    }
+  }
+
+  if (coincidencias.length === 0) {
+    mensaje.textContent = 'No se encontraron coincidencias';
+    return;
+  }
+
+  for (let i = 0; i < coincidencias.length; i++) {
+    if (i >= 5) {
+      break;
+    }
+
+    const nombre_coincidencia = coincidencias[i];
+
+    const item_sugerencia = document.createElement('li');
+    item_sugerencia.textContent = nombre_coincidencia;
+
+    item_sugerencia.addEventListener('click', function () {
+      buscador.value = nombre_coincidencia;
+      contenedor_sugerencias.innerHTML = '';
+      elegir_pokemon(nombre_coincidencia, numero);
+    });
+
+    contenedor_sugerencias.appendChild(item_sugerencia);
+  }
+}
+
 // Busca un pokemon por nombre y lo muestra en la pantalla de inicio
 // Aca la IA me ayudó a poner los mensajes de guía como "buscando" o "no encontrado" al momento de escribir para buscar algun pokemon
 async function elegir_pokemon(nombre, numero) {
@@ -167,7 +242,7 @@ async function elegir_pokemon(nombre, numero) {
     segundo_poke = pokemon;
   }
 
-  mensaje.textContent = '';
+  mensaje.textContent = 'Pokémon encontrado';
   foto_elegido.src = pokemon.imagen;
   nombre_elegido.textContent = pokemon.nombre;
   vida_elegido.textContent = 'Vida: ' + pokemon.vida_maxima;
@@ -338,6 +413,9 @@ function reiniciar() {
   primer_poke_mensaje.textContent = '';
   segundo_poke_mensaje.textContent = '';
 
+  primer_poke_sugerencias.innerHTML = '';
+  segundo_poke_sugerencias.innerHTML = '';
+
   primer_poke_elegido.classList.add('oculto');
   segundo_poke_elegido.classList.add('oculto');
 
@@ -346,18 +424,12 @@ function reiniciar() {
   cambiar_pantalla(pantalla_inicio);
 }
 
-// Eventos de los buscadores 
+// Eventos de los buscadores
 primer_poke_buscador.addEventListener('input', function () {
   clearTimeout(temporizador_primero);
 
   temporizador_primero = setTimeout(function () {
-    const nombre_escrito = primer_poke_buscador.value.trim().toLowerCase();
-
-    if (nombre_escrito === '') {
-      return;
-    }
-
-    elegir_pokemon(nombre_escrito, 1);
+    mostrar_sugerencias(1);
   }, 500);
 });
 
@@ -365,13 +437,7 @@ segundo_poke_buscador.addEventListener('input', function () {
   clearTimeout(temporizador_segundo);
 
   temporizador_segundo = setTimeout(function () {
-    const nombre_escrito = segundo_poke_buscador.value.trim().toLowerCase();
-
-    if (nombre_escrito === '') {
-      return;
-    }
-
-    elegir_pokemon(nombre_escrito, 2);
+    mostrar_sugerencias(2);
   }, 500);
 });
 
@@ -383,3 +449,6 @@ boton_empezar.addEventListener('click', function () {
 boton_reiniciar.addEventListener('click', function () {
   reiniciar();
 });
+
+// Cargar la lista de nombres apenas se abre la pagina
+cargar_lista_pokemon();
